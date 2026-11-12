@@ -1,0 +1,4 @@
+-- Run ONLY as project owner in SQL Editor. Replace UUID with a registered user's
+-- Auth > Users UUID. Never put service-role credentials in the web application.
+-- update public.profiles set role='admin' where id='REPLACE_WITH_AUTH_USER_UUID';
+-- Sign out and back in after promotion. Public signup always creates customer.
