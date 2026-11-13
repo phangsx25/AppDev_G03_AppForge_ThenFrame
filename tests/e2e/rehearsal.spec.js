@@ -101,13 +101,11 @@ test("rejects invalid uploads and shows empty public collection", async ({
 }) => {
   await admin(page);
   await create(page, "Empty sample");
-  await page
-    .getByLabel("Choose photos")
-    .setInputFiles({
-      name: "bad.png",
-      mimeType: "image/png",
-      buffer: Buffer.from("fake png"),
-    });
+  await page.getByLabel("Choose photos").setInputFiles({
+    name: "bad.png",
+    mimeType: "image/png",
+    buffer: Buffer.from("fake png"),
+  });
   await page
     .getByRole("button", { name: "Upload photos", exact: true })
     .click();
@@ -182,4 +180,19 @@ test("manifest, icons, service worker, offline fallback and cache boundaries", a
     page.getByRole("heading", { name: "You’re offline." }),
   ).toBeVisible();
   await context.setOffline(false);
+});
+
+test("capture desktop and mobile home for visual review", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/");
+  await page.screenshot({
+    path: testInfo.outputPath("home-desktop.png"),
+    fullPage: true,
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({
+    path: testInfo.outputPath("home-mobile.png"),
+    fullPage: true,
+  });
 });

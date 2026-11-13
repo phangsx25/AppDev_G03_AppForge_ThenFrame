@@ -7,7 +7,9 @@ const CACHE =
     .reduce((h, c) => (Math.imul(31, h) + c.charCodeAt(0)) | 0, 0);
 self.addEventListener("install", (event) =>
   event.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(assets.map((x) => x.url))),
+    caches
+      .open(CACHE)
+      .then((c) => c.addAll([...new Set(assets.map((x) => x.url))])),
   ),
 );
 self.addEventListener("activate", (event) =>
