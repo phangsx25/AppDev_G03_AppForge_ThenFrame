@@ -1,0 +1,116 @@
+{
+  "note": "Summary extracted from actual Playwright JSON report; attachments and step traces omitted.",
+  "run": "https://github.com/phangsx25/AppDev_G03_AppForge_ThenFrame/actions/runs/43356286022",
+  "stats": {
+    "startTime": "2026-11-13T03:03:19.480Z",
+    "duration": 7150.095,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "title": "connected gallery workflow: create, multiple upload, visibility, edit, reload, public viewing, delete",
+      "file": "rehearsal.spec.js",
+      "ok": true,
+      "tests": [
+        {
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "duration": 1580,
+              "errors": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "simulated access guards and logout",
+      "file": "rehearsal.spec.js",
+      "ok": true,
+      "tests": [
+        {
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "duration": 365,
+              "errors": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "rejects invalid uploads and shows empty public collection",
+      "file": "rehearsal.spec.js",
+      "ok": true,
+      "tests": [
+        {
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "duration": 524,
+              "errors": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "mobile layout and navigation",
+      "file": "rehearsal.spec.js",
+      "ok": true,
+      "tests": [
+        {
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "duration": 446,
+              "errors": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "manifest, icons, service worker, offline fallback and cache boundaries",
+      "file": "rehearsal.spec.js",
+      "ok": true,
+      "tests": [
+        {
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "duration": 243,
+              "errors": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "capture desktop and mobile home for visual review",
+      "file": "rehearsal.spec.js",
+      "ok": true,
+      "tests": [
+        {
+          "status": "expected",
+          "results": [
+            {
+              "status": "passed",
+              "duration": 262,
+              "errors": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -20,9 +20,9 @@ All results below describe automated or environment checks, not partner/user acc
 | Chromium invalid upload and empty collection                                 | Pass               | GitHub CI                                                                                           |
 | Chromium mobile-width layout/navigation                                      | Pass               | GitHub CI at 390 × 844; no horizontal overflow                                                      |
 | Initial Chromium PWA runtime test                                            | Fail               | CI timed out waiting for service-worker activation; duplicate precache URLs identified              |
-| PWA fix browser retest                                                       | Not Tested         | Fix committed; 3 regression tests pass, but no new GitHub run returned for fixed commit at delivery |
+| PWA fix browser retest | Pass | Fresh CI verified activation, offline fallback, icons and cache boundaries |
 | Local Chromium suite                                                         | Fail (environment) | Retried: Chromium cannot create process socket; app assertions not reached                          |
-| Desktop/mobile screenshot review                                             | Not Tested         | Capture test added; no successful capture run yet                                                   |
+| Desktop/mobile homepage screenshot review | Pass | Actual CI captures reviewed; readable layout and no visible clipping |
 | Live Supabase Auth/email/Storage and cross-device persistence                | Not Tested         | No configured project URL/key supplied                                                              |
 | Physical device installation and HTTPS deployment                            | Not Tested         | Configuration/instructions provided; no deployment claimed                                          |
 | Studio owner feedback and acceptance                                         | Not Tested         | Planned for 17 November; no outcomes invented                                                       |
@@ -30,11 +30,11 @@ All results below describe automated or environment checks, not partner/user acc
 Local suite: **39 passed, 0 failed**, across 6 test files. JSON evidence is in
 `docs/evidence/unit-tests.json`. Browser suite source is in `tests/e2e/rehearsal.spec.js`.
 It builds a clearly labelled demo-mode app, never claiming real authentication.
-The suite includes five functional checks plus a screenshot-capture test. Four functional browser checks passed on the initial CI run; the PWA runtime retest is outstanding.
+The suite includes five functional checks plus a screenshot-capture test. All six browser tests passed in the final CI run (0 failed, 0 skipped, 0 flaky). Machine-readable evidence: `docs/evidence/browser-tests.json`.
 
 Initial CI evidence: [GitHub Actions run 43260106768](https://github.com/phangsx25/AppDev_G03_AppForge_ThenFrame/actions/runs/43260106768), source commit c2f5e15d9f00d0a9f82ac0a777d7ed4721291e94. It passed 36 unit/integration tests and four of five browser tests. The PWA test failed waiting for activation. The plugin included icons twice, and Cache.addAll rejects duplicate requests. The fix deduplicates URLs before caching and is covered by new regression tests. Fixed source commit: 83deffc288574d59e3486acd41839eb196a69d90.
 
-The fixed build and 39 local tests pass. A fresh CI browser result was not available at delivery; do not describe the fix as browser-verified. Local browser launch is still blocked by process-socket restrictions; the cloud browser also could not reach the local server. A test-only IndexedDB ordering assumption and the preview host binding were corrected during earlier verification.
+Final CI evidence: [GitHub Actions run 43356286022](https://github.com/phangsx25/AppDev_G03_AppForge_ThenFrame/actions/runs/43356286022), source commit `5186bc99a045221bfcc5d0c626a958e7b97d7286`: **39 unit/integration tests and 6 Chromium browser tests passed**, followed by a successful production build. This verifies the PWA fix in Chromium. Desktop and mobile homepage captures from that run were visually reviewed. Local browser launch remains blocked by this workspace's process-socket restrictions; CI provided actual browser execution. A test-only IndexedDB ordering assumption and preview host binding were corrected during earlier verification.
 
 ## Repeat locally / CI
 
@@ -46,7 +46,7 @@ npm run test:e2e
 npm run build
 ```
 
-CI workflow is supplied. Do not claim it passed until its actual run succeeds. On a system with a
+CI workflow is supplied; the run linked above succeeded. On a system with a
 preinstalled Chromium, `PLAYWRIGHT_CHROMIUM_EXECUTABLE` may specify its executable. This variable
 is optional; normal local setup uses Playwright's browser. The build command after E2E restores your
 chosen `.env` mode before deployment.
@@ -63,7 +63,7 @@ and adversarial cases, and `10-user-review-feedback.md` for partner tasks.
 
 ## Remaining limitations
 
-No story is declared Done. Live backend verification, visual/physical-device review, PWA browser retest, install testing, staging,
+No story is declared Done. Live backend verification, physical-device review, install testing, staging,
 student PR review/merge and Product Owner acceptance remain. Demo data is local to one browser.
 Large-gallery pagination/thumbnails and transactional storage cleanup are not implemented. These
 limits are documented in the architecture and Sprint 2 handover.
