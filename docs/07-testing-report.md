@@ -3,36 +3,38 @@
 Execution date: 13 November 2026 (MYT). Build: supplied source increment.
 All results below describe automated or environment checks, not partner/user acceptance.
 
-| Check                                                                         | Status             | Evidence / boundary                                                                                                           |
-| ----------------------------------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| Production Vite build and service-worker generation                           | Pass               | Vite 7.3.8; 96 modules; generated manifest and sw.js                                                                          |
-| Valid/invalid registration input                                              | Pass               | 4 Vitest cases; local validation                                                                                              |
-| Registration SDK call, duplicate errors and obfuscated response               | Pass               | Mocked Supabase SDK contract tests; no live account created                                                                   |
-| Customer/admin login and invalid credentials                                  | Pass               | Mocked SDK; actual Auth not tested                                                                                            |
-| Customer/unauthenticated route guards, admin redirect, logout                 | Pass               | 6 React/jsdom tests, simulated sessions                                                                                       |
-| File type/header/size validation                                              | Pass               | 5 Vitest cases                                                                                                                |
-| Collection creation, multiple upload, edit/delete, visibility and persistence | Pass               | 2 integration cases using actual adapter with fake-indexeddb; blob persistence and module reload                              |
-| Joint public/hidden visibility combinations                                   | Pass               | 4 validation cases                                                                                                            |
-| Migration application and RLS restrictions                                    | Pass               | 7 PGlite PostgreSQL cases with auth/storage schema stubs                                                                      |
-| Production dependency audit                                                   | Pass               | `npm audit --omit=dev --audit-level=high`: 0 vulnerabilities reported at execution                                            |
-| Chromium browser suite                                                        | Fail (environment) | 5 tests attempted; Chromium process could not launch (`socket() failed: Operation not permitted`); app assertions not reached |
-| Cloud browser preview                                                         | Not Tested         | Separate browser could not reach local preview: connection refused                                                            |
-| Actual responsive layout and visual rendering                                 | Not Tested         | CSS and browser tests included; no successful browser run                                                                     |
-| Live Supabase registration/login/logout/confirmation/duplicates               | Not Tested         | Project URL/key and configured project unavailable                                                                            |
-| Live Supabase Storage, cross-device persistence, HTTP policies                | Not Tested         | Requires migrated Supabase project                                                                                            |
-| Real browser service-worker/offline/cache runtime                             | Not Tested         | Build configuration verified; browser execution blocked                                                                       |
-| Desktop/mobile PWA installation                                               | Not Tested         | Needs supported browser on localhost/HTTPS; physical device checks pending                                                    |
-| HTTPS deployment and live user flow                                           | Not Tested         | No deployment account configured                                                                                              |
-| Studio owner review, feedback, approval                                       | Not Tested         | Planned for 17 November; no outcomes invented                                                                                 |
+| Check                                                                        | Status             | Evidence / boundary                                                                                 |
+| ---------------------------------------------------------------------------- | ------------------ | --------------------------------------------------------------------------------------------------- |
+| Production Vite build, manifest, 192/512 icons and service-worker generation | Pass               | Build and file dimensions verified                                                                  |
+| Registration validation                                                      | Pass               | 4 local cases                                                                                       |
+| Signup, duplicate handling and customer/admin login                          | Pass               | 8 mocked SDK cases; not live Auth                                                                   |
+| React route guards and logout                                                | Pass               | 6 jsdom cases                                                                                       |
+| Image validation                                                             | Pass               | 5 type/header/size/empty cases                                                                      |
+| Gallery create/upload/edit/delete and persistence                            | Pass               | 2 adapter integration cases using fake-indexeddb                                                    |
+| Joint collection/photo visibility combinations                               | Pass               | 4 cases                                                                                             |
+| Migration and PostgreSQL RLS                                                 | Pass               | 7 PGlite cases with Supabase schema stubs                                                           |
+| Service-worker regression tests                                              | Pass               | 3 cases: duplicate asset removal, API exclusion, offline fallback                                   |
+| Production dependency audit                                                  | Pass               | npm audit --omit=dev reported 0 vulnerabilities at execution                                        |
+| Chromium connected gallery workflow                                          | Pass               | GitHub CI: create, multiple upload, edit, reload, publish, anonymous view, delete                   |
+| Chromium role guards and logout                                              | Pass               | GitHub CI, simulated sessions                                                                       |
+| Chromium invalid upload and empty collection                                 | Pass               | GitHub CI                                                                                           |
+| Chromium mobile-width layout/navigation                                      | Pass               | GitHub CI at 390 × 844; no horizontal overflow                                                      |
+| Initial Chromium PWA runtime test                                            | Fail               | CI timed out waiting for service-worker activation; duplicate precache URLs identified              |
+| PWA fix browser retest                                                       | Not Tested         | Fix committed; 3 regression tests pass, but no new GitHub run returned for fixed commit at delivery |
+| Local Chromium suite                                                         | Fail (environment) | Retried: Chromium cannot create process socket; app assertions not reached                          |
+| Desktop/mobile screenshot review                                             | Not Tested         | Capture test added; no successful capture run yet                                                   |
+| Live Supabase Auth/email/Storage and cross-device persistence                | Not Tested         | No configured project URL/key supplied                                                              |
+| Physical device installation and HTTPS deployment                            | Not Tested         | Configuration/instructions provided; no deployment claimed                                          |
+| Studio owner feedback and acceptance                                         | Not Tested         | Planned for 17 November; no outcomes invented                                                       |
 
-Local suite: **36 passed, 0 failed**, across 5 test files. JSON evidence is in
+Local suite: **39 passed, 0 failed**, across 6 test files. JSON evidence is in
 `docs/evidence/unit-tests.json`. Browser suite source is in `tests/e2e/rehearsal.spec.js`.
 It builds a clearly labelled demo-mode app, never claiming real authentication.
-The test code includes full gallery flow, mobile width, manifest/icon/service-worker/offline checks.
+The suite includes five functional checks plus a screenshot-capture test. Four functional browser checks passed on the initial CI run; the PWA runtime retest is outstanding.
 
-A test-ordering assumption (IndexedDB UUID order versus source-file order) was corrected during
-verification. An initial preview host-bind error was also corrected by using loopback. Remaining
-browser launch restrictions are environment blockers; they are not reported as successful UI checks.
+Initial CI evidence: [GitHub Actions run 43260106768](https://github.com/phangsx25/AppDev_G03_AppForge_ThenFrame/actions/runs/43260106768), source commit c2f5e15d9f00d0a9f82ac0a777d7ed4721291e94. It passed 36 unit/integration tests and four of five browser tests. The PWA test failed waiting for activation. The plugin included icons twice, and Cache.addAll rejects duplicate requests. The fix deduplicates URLs before caching and is covered by new regression tests. Fixed source commit: 83deffc288574d59e3486acd41839eb196a69d90.
+
+The fixed build and 39 local tests pass. A fresh CI browser result was not available at delivery; do not describe the fix as browser-verified. Local browser launch is still blocked by process-socket restrictions; the cloud browser also could not reach the local server. A test-only IndexedDB ordering assumption and the preview host binding were corrected during earlier verification.
 
 ## Repeat locally / CI
 
@@ -61,7 +63,7 @@ and adversarial cases, and `10-user-review-feedback.md` for partner tasks.
 
 ## Remaining limitations
 
-No story is declared Done. Live backend verification, visual/mobile review, install testing, staging,
+No story is declared Done. Live backend verification, visual/physical-device review, PWA browser retest, install testing, staging,
 student PR review/merge and Product Owner acceptance remain. Demo data is local to one browser.
 Large-gallery pagination/thumbnails and transactional storage cleanup are not implemented. These
 limits are documented in the architecture and Sprint 2 handover.
